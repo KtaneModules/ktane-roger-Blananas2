@@ -49,8 +49,6 @@ function setup() {
   bLabel = random(labels);
   bColor = random(colors);
   bFlick = random(flicks);
-  
-  console.log(bShape + " " + bLabel + " " + bColor + " " + bFlick);
 }
 
 function draw() {
@@ -240,15 +238,12 @@ function keyTyped() {
     if (xseed > 63) { binary = binary + "1"; xseed -= 64; } else { binary = binary + "0"; }
     if (xseed > 31) { binary = binary + "1"; xseed -= 32; } else { binary = binary + "0"; }
     if (xseed > 15) { binary = binary + "1"; xseed -= 16; } else { binary = binary + "0"; }
-  
-    console.log(seed + " -> " + answer + " (" + binary + ")");
     
     pickingFunctions(0);
     pickingFunctions(1);
     pickingFunctions(2);
     pickingFunctions(3);
     
-    console.log(needs);
   }
 }
 

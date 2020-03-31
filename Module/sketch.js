@@ -370,7 +370,7 @@ function setA() {
 function setB() {
   if (bLabel == '1' || bLabel == '2' || bLabel == '3' || bLabel == '4' || bLabel == '5' || bLabel == '6' || bLabel == '7' || bLabel == '8' || bLabel == '9') {
     if (binary[9] == '0') {
-      needs = needs += bLabel;
+      needs = needs + bLabel;
     } else {
       kappa(bLabel); //ten minus
     }
@@ -387,55 +387,55 @@ function setB() {
       kappa(bLabel + ">");
     }
   } else {
-    needs = needs += '7';
+    needs = needs + '7';
   }
 }
 
 function kappa(x) {
-  if (x == '1') { needs = needs += '9';}
-  if (x == '2') { needs = needs += '8';}
-  if (x == '3') { needs = needs += '7';}
-  if (x == '4') { needs = needs += '6';}
-  if (x == '5') { needs = needs += '5';}
-  if (x == '6') { needs = needs += '4';}
-  if (x == '7') { needs = needs += '3';}
-  if (x == '8') { needs = needs += '2';}
-  if (x == '9') { needs = needs += '1';}
+  if (x == '1') { needs = needs + '9';}
+  if (x == '2') { needs = needs + '8';}
+  if (x == '3') { needs = needs + '7';}
+  if (x == '4') { needs = needs + '6';}
+  if (x == '5') { needs = needs + '5';}
+  if (x == '6') { needs = needs + '4';}
+  if (x == '7') { needs = needs + '3';}
+  if (x == '8') { needs = needs + '2';}
+  if (x == '9') { needs = needs + '1';}
   
-  if (x == "R%8") { needs = needs += '2';}
-  if (x == "S%8") { needs = needs += '3';}
-  if (x == "T%8") { needs = needs += '4';}
-  if (x == "L%8") { needs = needs += '4';}
-  if (x == "N%8") { needs = needs += '6';}
-  if (x == "R%11") { needs = needs += '7';}
-  if (x == "S%11") { needs = needs += '8';}
-  if (x == "T%11") { needs = needs += '9';}
-  if (x == "L%11") { needs = needs += '1';}
-  if (x == "N%11") { needs = needs += '3';}
+  if (x == "R%8") { needs = needs + '2';}
+  if (x == "S%8") { needs = needs + '3';}
+  if (x == "T%8") { needs = needs + '4';}
+  if (x == "L%8") { needs = needs + '4';}
+  if (x == "N%8") { needs = needs + '6';}
+  if (x == "R%11") { needs = needs + '7';}
+  if (x == "S%11") { needs = needs + '8';}
+  if (x == "T%11") { needs = needs + '9';}
+  if (x == "L%11") { needs = needs + '1';}
+  if (x == "N%11") { needs = needs + '3';}
   
-  if (x == "A<") { needs = needs += '1';}
-  if (x == "E<") { needs = needs += '2';}
-  if (x == "I<") { needs = needs += '3';}
-  if (x == "O<") { needs = needs += '4';}
-  if (x == "U<") { needs = needs += '5';}
-  if (x == "A>") { needs = needs += '2';}
-  if (x == "E>") { needs = needs += '4';}
-  if (x == "I>") { needs = needs += '6';}
-  if (x == "O>") { needs = needs += '8';}
-  if (x == "U>") { needs = needs += '~';} //tilda = 10
+  if (x == "A<") { needs = needs + '1';}
+  if (x == "E<") { needs = needs + '2';}
+  if (x == "I<") { needs = needs + '3';}
+  if (x == "O<") { needs = needs + '4';}
+  if (x == "U<") { needs = needs + '5';}
+  if (x == "A>") { needs = needs + '2';}
+  if (x == "E>") { needs = needs + '4';}
+  if (x == "I>") { needs = needs + '6';}
+  if (x == "O>") { needs = needs + '8';}
+  if (x == "U>") { needs = needs + '~';} //tilda = 10
 }
 
 function setC() {
   if (bColor == "red") {
     if (binary[6] == '0') {
-      needs = needs += '%';
+      needs = needs + '%';
     } else {
-      needs = needs += '$';
+      needs = needs + '$';
     }
   } else if ((binary[0] == '0' && bColor == "black") || (binary[0] == '1' && bColor == "gray")) {
-    needs = needs += '&';
+    needs = needs + '&';
   } else {
-    needs = needs += '@';
+    needs = needs + '@';
   }
 }
 

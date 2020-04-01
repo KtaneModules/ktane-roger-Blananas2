@@ -136,7 +136,7 @@ public class rogerScript : MonoBehaviour {
                 Rules[0].text = "Appendix That";
                 Rules[1].transform.localPosition = new Vector3(-0.1116f, 0.1655386f, 0.0824f);
                 Rules[1].transform.localScale = new Vector3(0.02211364f, 0.0004000004f, 1.1f);
-                Rules[3].text = "The button has 4 attributes: A shape, a\ncolor, a character as it’s label, and\nflickering times.\n\nThe button will flicker WHITE and thus\nthe color of the button will never be\nwhite.\n\nThere are 4 indicator LEDs to indicate\nwhich stage the module is on. The ‘R’\nbutton in the bottom-right can be used\nto reset.\n\nThe module timer will start at 59 and\ngo down once a second and will wrap\naround after it reaches 0.\n\nHold the query button to reset inputs.\nNote that this does not work when submitting the last input.\n\nWhen submitting in Morse Code, holding over a tick in the\nmodule timer will create a dash. Not holding over a tick in the\ntimer will create a dot.";
+                Rules[3].text = "The button has 4 attributes: A shape, a\ncolor, a character as it’s label, and\nflickering times.\n\nThe button will flicker WHITE and thus\nthe color of the button will never be\nwhite.\n\nThere are 4 indicator LEDs to indicate\nwhich stage the module is on. The ‘R’\nbutton in the bottom-right can be used\nto reset.\n\nThe module timer will start at 1 and\ngo up once a second and will wrap\nback to 0 after it reaches 59.\n\nHold the query button to reset inputs.\nNote that this does not work when submitting the last input.\n\nWhen submitting in Morse Code, holding over a tick in the\nmodule timer will create a dash. Not holding over a tick in the\ntimer will create a dot.";
             } else {
                 if (ruleSets[page - 2] == 1) {
                     Rules[0].text = String.Format("Step {0}: Shape Pressing", page - 1);
@@ -163,7 +163,7 @@ public class rogerScript : MonoBehaviour {
                     Rules[0].text = String.Format("Step {0}: Flickering Morse", page - 1);
                     Rules[1].transform.localPosition = new Vector3(-0.12225f, 0.1655386f, 0.0824f);
                     Rules[1].transform.localScale = new Vector3(0.03823728f, 0.0004000004f, 1.1f);
-                    Rules[3].text = String.Format("If the button only flickers when the module\ntimer forms a {0}\nOtherwise, if the button flickers every {1} in Morse Code.\n\nOtherwise, if the delay between flickers\nchanges between {2} in Morse Code.\n\nOtherwise, submit an ‘X’ in Morse Code", good[2], good[8], good[5]);
+                    Rules[3].text = String.Format("If the button only flickers when the module\ntimer forms a {0}\nOtherwise, if the button flickers every {1} in Morse Code.\n\nOtherwise, if the delay between flickers\nchanges between {2} in Morse Code.\n\nOtherwise, submit an ‘X’ in Morse Code.", good[2], good[8], good[5]);
                 }
             }
         } else {

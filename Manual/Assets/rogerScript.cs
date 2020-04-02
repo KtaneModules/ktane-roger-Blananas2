@@ -92,8 +92,8 @@ public class rogerScript : MonoBehaviour {
 			case 15: OrderRuleSets(2, 1, 3, 4); FormCorrectAnswer(1, 0, 0, 7, 2, 3, 3, 8); break;
         }
 
-        Debug.Log(answer[0] + " " + answer[1] + " " + answer[2] + " " + answer[3]);
-	}
+        Debug.LogFormat("[Roger #{0}] The numbers at the bottom of the module should be {1}, {2}, {3}, and {4}", moduleId, answer[0], answer[1], answer[2], answer[3]);
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -269,4 +269,168 @@ public class rogerScript : MonoBehaviour {
         holding = true;
     }
 
+    //twitch plays
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} page <#> [Goes to manual page '#'] | !{0} query <#>(#)... [Presses the query button on manual page 6 when the last digit of the bomb's timer is '#' (optionally include multiple #'s)] | !{0} reset [Resets all inputs]";
+    #pragma warning restore 414
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        if (Regex.IsMatch(command, @"^\s*reset\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (page == 7)
+            {
+                pButtons[0].OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            }
+            else if (page < 6)
+            {
+                while (page < 6)
+                {
+                    pButtons[1].OnInteract();
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+            Query.OnInteract();
+            yield return new WaitForSeconds(0.5f);
+            Query.OnInteractEnded();
+            yield break;
+        }
+        string[] parameters = command.Split(' ');
+        if (Regex.IsMatch(parameters[0], @"^\s*query\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (parameters.Length > 2)
+            {
+                yield return "sendtochaterror Too many parameters!";
+            }
+            else if (parameters.Length == 2)
+            {
+                int digit = 0;
+                if (int.TryParse(parameters[1], out digit))
+                {
+                    if (digit < 0 || digit > 9999)
+                    {
+                        yield return "sendtochaterror The time(s) to press the query button '" + parameters[1].Join(", ") + "' is out of range 0-9999!";
+                        yield break;
+                    }
+                    if (page == 7)
+                    {
+                        pButtons[0].OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    else if (page < 6)
+                    {
+                        while (page < 6)
+                        {
+                            pButtons[1].OnInteract();
+                            yield return new WaitForSeconds(0.1f);
+                        }
+                    }
+                    for (int i = 0; i < parameters[1].Length; i++)
+                    {
+                        int dig = int.Parse(parameters[1].ElementAt(i)+"");
+                        while ((int)Bomb.GetTime() % 10 != dig)
+                        {
+                            yield return "trycancel Halted pressing the query button due to a request to cancel!";
+                            yield return new WaitForSeconds(0.1f);
+                        }
+                        Query.OnInteract();
+                        Query.OnInteractEnded();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    if (submitted == 4)
+                    {
+                        if (inputs[0] == answer[0] && inputs[1] == answer[1] && inputs[2] == answer[2] && inputs[3] == answer[3])
+                        {
+                            yield return "solve";
+                        }
+                        else
+                        {
+                            yield return "strike";
+                        }
+                    }
+                }
+                else
+                {
+                    yield return "sendtochaterror The time(s) to press the query button '" + parameters[1].Join(", ") + "' is invalid!";
+                }
+            }
+            else if (parameters.Length == 1)
+            {
+                yield return "sendtochaterror Please specify the time(s) to press the query button!";
+            }
+            yield break;
+        }
+        if (Regex.IsMatch(parameters[0], @"^\s*page\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            if (parameters.Length > 2)
+            {
+                yield return "sendtochaterror Too many parameters!";
+            }
+            else if (parameters.Length == 2)
+            {
+                int digit = 0;
+                if (int.TryParse(parameters[1], out digit))
+                {
+                    if (digit < 0 || digit > 7)
+                    {
+                        yield return "sendtochaterror The specified manual page to go to '" + parameters[1] + "' is out of range 0-7!";
+                        yield break;
+                    }
+                    while (page > digit)
+                    {
+                        pButtons[0].OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    while (page < digit)
+                    {
+                        pButtons[1].OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                }
+                else
+                {
+                    yield return "sendtochaterror The specified manual page to go to '" + parameters[1] + "' is invalid!";
+                }
+            }
+            else if (parameters.Length == 1)
+            {
+                yield return "sendtochaterror Please specify the manual page to go to!";
+            }
+            yield break;
+        }
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        while (time != 0) { yield return true; yield return new WaitForSeconds(0.1f); }
+        if (submitted != 0)
+        {
+            for (int i = 0; i < submitted; i++)
+            {
+                if (inputs[i] != answer[i])
+                {
+                    yield return ProcessTwitchCommand("reset");
+                }
+            }
+        }
+        else
+        {
+            yield return ProcessTwitchCommand("page 6");
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            while ((int)Bomb.GetTime() % 10 != answer[i])
+            {
+                yield return true;
+                yield return new WaitForSeconds(0.1f);
+            }
+            Query.OnInteract();
+            Query.OnInteractEnded();
+            yield return new WaitForSeconds(0.1f);
+        }
+        while (time != 0) { yield return true; yield return new WaitForSeconds(0.1f); }
+    }
 }

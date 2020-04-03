@@ -49,6 +49,7 @@ function setup() {
   bLabel = random(labels);
   bColor = random(colors);
   bFlick = random(flicks);
+  textAlign(CENTER, BASELINE);
 }
 
 function draw() {
@@ -67,7 +68,7 @@ function draw() {
       else if (damn == 4) { inputs = inputs + '$'; display = '4t';}
       else if (damn == 5) { inputs = inputs + '%'; display = '5t';}
       else if (damn == 7) { inputs = inputs + '&'; display = '7t';}
-      else { inputs = inputs + '?'; }
+      else { inputs = inputs + '?'; display = damn + 't';}
       stages = stages + 1;
       damn = 0;
       
@@ -85,14 +86,10 @@ function draw() {
   fill(0, 0, 0);
   rect(15, 15, 90, 45);
   fill(255, 0, 0);
-  if (timer < 10) {
-    text(timer, 50, 49);
-  } else {
-    text(timer, 40, 49);
-  }
+  text(timer, 60, 49);
   fill(0, 0, 0);
-  text(uno+""+dos+""+tres+""+cuatro, 302, 49);
-  text(display, 23, 372);
+  text(uno+""+dos+""+tres+""+cuatro, 340, 49);
+  text(display, 60, 372);
   if (stages > 0) { fill(0, 255, 0); } else { fill(0, 0, 0); }
   circle(150, 363, 20);
   if (stages > 1) { fill(0, 255, 0); } else { fill(0, 0, 0); }
@@ -105,7 +102,7 @@ function draw() {
   fill(255, 0, 0);
   circle(350, 360, 60);
   fill(0, 0, 0);
-  text('R', 337, 370);
+  text('R', 350, 370);
   
   //color
   if (bColor == "red") {
@@ -152,12 +149,12 @@ function draw() {
   if (bShape != "triangle") {
     fill(255, 255, 255);
     textSize(75);
-    text(bLabel, 175, 225);
+    text(bLabel, 200, 225);
     textSize(34);
   } else {
     fill(255, 255, 255);
     textSize(75);
-    text(bLabel, 175, 245);
+    text(bLabel, 200, 245);
     textSize(34);
   }
 }
@@ -176,15 +173,20 @@ function keyTyped() {
   if (key === '8') { yourSeed = yourSeed * 10 + 8; }
   if (key === '9') { yourSeed = yourSeed * 10 + 9; }
   
-  if (key === 'R') { stages = 0; 
+  if (key === 'R') {
+    seed = yourSeed;
+    stages = 0;
     gucci = true;
-    needs = "";
     inputs = "";
     firstPress = 0;
     damn = 0;
     MORSE = '';
    }
   
+  Calc();
+}
+
+function Calc() {
   yourSeed = yourSeed % 10000;
   
   uno = (yourSeed - yourSeed % 1000) / 1000;
@@ -238,12 +240,11 @@ function keyTyped() {
     if (xseed > 63) { binary = binary + "1"; xseed -= 64; } else { binary = binary + "0"; }
     if (xseed > 31) { binary = binary + "1"; xseed -= 32; } else { binary = binary + "0"; }
     if (xseed > 15) { binary = binary + "1"; xseed -= 16; } else { binary = binary + "0"; }
-    
+  
     pickingFunctions(0);
     pickingFunctions(1);
     pickingFunctions(2);
     pickingFunctions(3);
-    
   }
 }
 
@@ -252,7 +253,17 @@ function mousePressed() {
     before = trueTimer;
     properClick = true;
   } else if (mouseX > 300 && mouseY > 300) {
+    seed = yourSeed;
     stages = 0;
+    gucci = true;
+    inputs = "";
+    firstPress = 0;
+    damn = 0;
+    MORSE = '';
+  } else if (mouseX > 300 && mouseY < 100) {
+    presses = 4;
+    yourSeed = prompt("Insert your seed.");
+    seed = yourSeed;
     stages = 0;
     gucci = true;
     needs = "";
@@ -260,6 +271,7 @@ function mousePressed() {
     firstPress = 0;
     damn = 0;
     MORSE = '';
+    Calc();
   }
 }
 
@@ -282,6 +294,7 @@ function mouseReleased() {
         } else {
             inputs = inputs + '?';
         }
+        display = '#'+timer;
         stages = stages + 1;
     } else if (currentSet == 'B') {
         if (after - before == 1) { inputs = inputs + '1'; display = '1h';}
@@ -332,7 +345,7 @@ function mouseReleased() {
         else if (MORSE == "..-") { inputs = inputs + 'U'; display = 'U'; }
         else if (MORSE == "...-") { inputs = inputs + 'V'; display = 'V'; }
         else if (MORSE == "--..") { inputs = inputs + 'Z'; display = 'Z'; }
-        else { inputs = inputs + '?'; };
+        else { inputs = inputs + '?'; }
         stages = stages + 1;
       }
     }
@@ -469,8 +482,27 @@ function GoodGame() {
   if (needs == inputs) {
     display = ((answer - answer % 1000) / 1000) + "" + (((answer - answer % 100) / 100) % 10) + "" + (((answer - answer % 10) / 10) % 10) + "" + (answer % 10);
   } else {
-    bullshit = random(0, 9999);
-    bullshit = bullshit - bullshit % 1;
+    bullshit = 0;
+    if (inputs[0] == needs[0]) {
+      bullshit = (answer - answer % 1000) / 1000;
+    } else {
+      bullshit = ((((answer - answer % 1000) / 1000) + ((seed - 1) % 9) + 1) % 10);
+    }
+    if (inputs[1] == needs[1]) {
+      bullshit = bullshit * 10 + (((answer - answer % 100) / 100) % 10);
+    } else {
+      bullshit = bullshit * 10 + ((((answer - answer % 100) / 100) % 10 + ((seed - 1) % 9) + 1) % 10);
+    }
+    if (inputs[2] == needs[2]) {
+      bullshit = bullshit * 10 + ((answer - answer % 10) / 10);
+    } else {
+      bullshit = bullshit * 10 + ((((answer - answer % 10) / 10) + ((seed - 1) % 9) + 1) % 10);
+    }
+    if (inputs[3] == needs[3]) {
+      bullshit = bullshit * 10 + (answer % 10);
+    } else {
+      bullshit = bullshit * 10 + ((((answer % 10) + ((seed - 1) % 9) + 1) % 10));
+    }
     display = ((bullshit - bullshit % 1000) / 1000) + "" + (((bullshit - bullshit % 100) / 100) % 10) + "" + (((bullshit - bullshit % 10) / 10) % 10) + "" + (bullshit % 10);
   }
 }

@@ -262,7 +262,9 @@ function mousePressed() {
     MORSE = '';
   } else if (mouseX > 300 && mouseY < 100) {
     presses = 4;
-    yourSeed = prompt("Insert your seed.");
+    yourSeed = prompt("Insert your four digit seed.");
+    if (yourSeed.length != 4 || isNaN(yourSeed))
+      return;
     seed = yourSeed;
     stages = 0;
     gucci = true;

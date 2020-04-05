@@ -92,7 +92,8 @@ public class rogerScript : MonoBehaviour {
 			case 15: OrderRuleSets(2, 1, 3, 4); FormCorrectAnswer(1, 0, 0, 7, 2, 3, 3, 8); break;
         }
 
-        Debug.LogFormat("[Roger #{0}] The numbers at the bottom of the module should be {1}, {2}, {3}, and {4}", moduleId, answer[0], answer[1], answer[2], answer[3]);
+        Debug.LogFormat("[Roger #{0}] The number on the first page of the manual is {1}{2}{3}{4}.", moduleId, digits[0], digits[1], digits[2], digits[3]);
+        Debug.LogFormat("[Roger #{0}] The number at the bottom of the module should be {1}{2}{3}{4}.", moduleId, answer[0], answer[1], answer[2], answer[3]);
     }
 
 	// Update is called once per frame
@@ -142,7 +143,7 @@ public class rogerScript : MonoBehaviour {
                     Rules[0].text = String.Format("Step {0}: Shape Pressing", page - 1);
                     Rules[1].transform.localPosition = new Vector3(-0.11954f, 0.1655386f, 0.0824f);
                     Rules[1].transform.localScale = new Vector3(0.03439362f, 0.0004000004f, 1.1f);
-                    Rules[3].text = String.Format("If the button has {0}\n\nOtherwise, if the button {1}\n\nOtherwise, press the button when the\nmodule timer is odd and divisible by 3.", good[3], good[4]);
+                    Rules[3].text = String.Format("If the button has {0}\n\nOtherwise, if the button {1}\n\nOtherwise, press the button when the\nmodule timer is odd and divisible by 3, and\nthe number on the module timer isn't 3\nitself.", good[3], good[4]);
                 } else if (ruleSets[page - 2] == 2) {
                     manual.GetComponent<MeshRenderer>().material = mats[3];
                     Rules[0].text = String.Format("Step {0}: Character Holding", page - 1);
@@ -214,8 +215,10 @@ public class rogerScript : MonoBehaviour {
             page = 1;
             PageChange();
             if (inputs[0] == answer[0] && inputs[1] == answer[1] && inputs[2] == answer[2] && inputs[3] == answer[3]) {
+                Debug.LogFormat("[Roger #{0}] You submitted {1}{2}{3}{4}, which is correct. Manual solved.", moduleId, inputs[0], inputs[1], inputs[2], inputs[3]);
                 StartCoroutine(Shrink(true));
             } else {
+                Debug.LogFormat("[Roger #{0}] You submitted {1}{2}{3}{4}, which is incorrect. Manual striked.", moduleId, inputs[0], inputs[1], inputs[2], inputs[3]);
                 StartCoroutine(Shrink(false));
             }
         }

@@ -14,12 +14,8 @@ MonoBehaviour:
   id: roger
   title: Roger
   author: 
-  description: 'You hardly know ''er.
-
-
-    Module ID: roger
-
-    The module can be found here: https://ktane.timwi.de/HTML/Roger.html'
+  description: "You hardly know 'er.\r\n\r\nManual ID: roger\r\n\r\nThe module can
+    be found here: https://ktane.timwi.de/HTML/Roger.html\r\nBackup module link: https://editor.p5js.org/blananas2/full/3quLTXxkw"
   version: 
   outputFolder: build
   previewImage: {fileID: 2800000, guid: c8fd7fdf555d065459dc06051edbc6b1, type: 3}

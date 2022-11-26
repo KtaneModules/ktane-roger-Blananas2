@@ -302,11 +302,8 @@ public class rogerScript : MonoBehaviour {
         string[] parameters = command.Split(' ');
         if (Regex.IsMatch(parameters[0], @"^\s*query\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
-            yield return null;
             if (parameters.Length > 2)
-            {
                 yield return "sendtochaterror Too many parameters!";
-            }
             else if (parameters.Length == 2)
             {
                 int digit = 0;
@@ -317,6 +314,7 @@ public class rogerScript : MonoBehaviour {
                         yield return "sendtochaterror The time(s) to press the query button '" + parameters[1].Join(", ") + "' is out of range 0-9999!";
                         yield break;
                     }
+                    yield return null;
                     if (page == 7)
                     {
                         pButtons[0].OnInteract();
@@ -334,10 +332,7 @@ public class rogerScript : MonoBehaviour {
                     {
                         int dig = int.Parse(parameters[1].ElementAt(i)+"");
                         while ((int)Bomb.GetTime() % 10 != dig)
-                        {
                             yield return "trycancel Halted pressing the query button due to a request to cancel!";
-                            yield return new WaitForSeconds(0.1f);
-                        }
                         Query.OnInteract();
                         Query.OnInteractEnded();
                         yield return new WaitForSeconds(0.1f);
@@ -345,43 +340,33 @@ public class rogerScript : MonoBehaviour {
                     if (submitted == 4)
                     {
                         if (inputs[0] == answer[0] && inputs[1] == answer[1] && inputs[2] == answer[2] && inputs[3] == answer[3])
-                        {
                             yield return "solve";
-                        }
                         else
-                        {
                             yield return "strike";
-                        }
                     }
                 }
                 else
-                {
-                    yield return "sendtochaterror The time(s) to press the query button '" + parameters[1].Join(", ") + "' is invalid!";
-                }
+                    yield return "sendtochaterror!f The time(s) to press the query button '" + parameters[1].Join(", ") + "' is invalid!";
             }
             else if (parameters.Length == 1)
-            {
                 yield return "sendtochaterror Please specify the time(s) to press the query button!";
-            }
             yield break;
         }
         if (Regex.IsMatch(parameters[0], @"^\s*page\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
-            yield return null;
             if (parameters.Length > 2)
-            {
                 yield return "sendtochaterror Too many parameters!";
-            }
             else if (parameters.Length == 2)
             {
                 int digit = 0;
                 if (int.TryParse(parameters[1], out digit))
                 {
-                    if (digit < 0 || digit > 7)
+                    if (digit < 1 || digit > 7)
                     {
-                        yield return "sendtochaterror The specified manual page to go to '" + parameters[1] + "' is out of range 0-7!";
+                        yield return "sendtochaterror The specified manual page to go to '" + parameters[1] + "' is out of range 1-7!";
                         yield break;
                     }
+                    yield return null;
                     while (page > digit)
                     {
                         pButtons[0].OnInteract();
@@ -394,46 +379,45 @@ public class rogerScript : MonoBehaviour {
                     }
                 }
                 else
-                {
-                    yield return "sendtochaterror The specified manual page to go to '" + parameters[1] + "' is invalid!";
-                }
+                    yield return "sendtochaterror!f The specified manual page to go to '" + parameters[1] + "' is invalid!";
             }
             else if (parameters.Length == 1)
-            {
                 yield return "sendtochaterror Please specify the manual page to go to!";
-            }
-            yield break;
         }
     }
 
     IEnumerator TwitchHandleForcedSolve()
     {
-        while (time != 0) { yield return true; yield return new WaitForSeconds(0.1f); }
         if (submitted != 0)
         {
             for (int i = 0; i < submitted; i++)
             {
                 if (inputs[i] != answer[i])
                 {
-                    yield return ProcessTwitchCommand("reset");
+                    if (submitted < 3)
+                    {
+                        yield return ProcessTwitchCommand("reset");
+                        break;
+                    }
+                    else
+                    {
+                        StopAllCoroutines();
+                        GetComponent<KMBombModule>().HandlePass();
+                        yield break;
+                    }
                 }
             }
         }
-        else
-        {
-            yield return ProcessTwitchCommand("page 6");
-        }
-        for (int i = 0; i < 4; i++)
+        yield return ProcessTwitchCommand("page 6");
+        int start = submitted;
+        for (int i = start; i < 4; i++)
         {
             while ((int)Bomb.GetTime() % 10 != answer[i])
-            {
                 yield return true;
-                yield return new WaitForSeconds(0.1f);
-            }
             Query.OnInteract();
             Query.OnInteractEnded();
             yield return new WaitForSeconds(0.1f);
         }
-        while (time != 0) { yield return true; yield return new WaitForSeconds(0.1f); }
+        while (time != 0) { yield return true; }
     }
 }

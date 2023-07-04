@@ -31,8 +31,8 @@ public class rogerScript : MonoBehaviour {
     int xseed = 0;
     int page = 1;
     private List<string> good = new List<string> { };
-    private List<string> zeros = new List<string> { "black", " 8.", "prime number, submit a ‘P’ in\nMorse Code.\n", "4 sides, press the button\nwhen the module timer forms a prime\nnumber.", "does not have an\nobtuse angle, press the button when the\nmodule timer forms an even number.", "2 different amounts,\nsubmit a ‘Y’", " 5\n", "[ones]", "2\nseconds, submit a ‘W’", "the\nnumber on the button." };
-    private List<string> ones = new List<string> { "gray", " 11.", "square number, submit an ‘S’\nin Morse Code.\n", "an even number of sides,\npress the button when the module timer\nforms a prime number.", "has an obtuse\nangle, press the button when the module\ntimer forms an even number.", "3 different amounts,\nsubmit a ‘Q’", " 4\n", "[twos]", "3\nseconds, submit an ‘H’", "ten\nminus the number on the button." };
+    private List<string> zeros = new List<string> { "black", " 8.", "prime number, submit\na ‘P’ in Morse Code.\n", "4 sides, press the button\nwhen the module timer forms an odd prime\nnumber.", "does not have an\nobtuse angle, press the button when the\nmodule timer forms an even number.", "2 seconds long, submit a ‘Y’", " 5\n", "[ones]", "\nother second, submit a ‘W’", "\nthe number on the button." };
+    private List<string> ones = new List<string> { "gray", " 11.", "square number,\nsubmit an ‘S’ in Morse Code.\n", "an even number of sides,\npress the button when the module timer\nforms an odd prime number.", "has an obtuse\nangle, press the button when the module\ntimer forms an even number.", "3 seconds long, submit a ‘Q’", " 4\n", "[twos]", "\n3 seconds, submit an ‘H’", "\nten minus the number on the button." };
     public List<int> digits = new List<int> { };
     public List<int> answer = new List<int> { };
     public List<int> inputs = new List<int> { };
@@ -74,26 +74,34 @@ public class rogerScript : MonoBehaviour {
         digits.Add(seed%10);
 
         switch (xseed) {
-            case 0:  OrderRuleSets(3, 2, 1, 4); FormCorrectAnswer(1, 0, 3, 3, 0, 1, 2, 9); break;
-            case 1:  OrderRuleSets(4, 3, 2, 1); FormCorrectAnswer(1, 1, 3, 4, 2, 1, 0, 5); break;
-            case 2:  OrderRuleSets(1, 3, 4, 2); FormCorrectAnswer(2, 2, 3, 3, 1, 9, 0, 3); break;
-            case 3:  OrderRuleSets(2, 1, 4, 3); FormCorrectAnswer(0, 2, 2, 5, 1, 1, 3, 4); break;
-            case 4:  OrderRuleSets(3, 4, 1, 2); FormCorrectAnswer(0, 9, 2, 1, 1, 8, 3, 7); break;
-            case 5:  OrderRuleSets(4, 2, 1, 3); FormCorrectAnswer(3, 5, 0, 1, 2, 5, 1, 0); break;
-            case 6:  OrderRuleSets(1, 2, 3, 4); FormCorrectAnswer(3, 8, 2, 3, 1, 3, 0, 5); break;
-            case 7:  OrderRuleSets(2, 3, 4, 1); FormCorrectAnswer(2, 2, 3, 2, 0, 9, 1, 2); break;
-            case 8:  OrderRuleSets(3, 1, 2, 4); FormCorrectAnswer(3, 8, 1, 2, 2, 2, 0, 8); break;
-            case 9:  OrderRuleSets(4, 1, 3, 2); FormCorrectAnswer(0, 9, 2, 1, 3, 0, 1, 2); break;
-            case 10: OrderRuleSets(1, 4, 3, 2); FormCorrectAnswer(2, 9, 1, 8, 0, 3, 3, 3); break;
-            case 11: OrderRuleSets(2, 3, 1, 4); FormCorrectAnswer(1, 4, 0, 8, 3, 0, 2, 7); break;
-            case 12: OrderRuleSets(3, 1, 4, 2); FormCorrectAnswer(2, 6, 0, 0, 3, 8, 1, 7); break;
-            case 13: OrderRuleSets(4, 1, 2, 3); FormCorrectAnswer(0, 1, 1, 4, 3, 7, 2, 3); break;
-            case 14: OrderRuleSets(1, 3, 2, 4); FormCorrectAnswer(3, 6, 1, 5, 0, 9, 2, 3); break;
-			case 15: OrderRuleSets(2, 1, 3, 4); FormCorrectAnswer(1, 0, 0, 7, 2, 3, 3, 8); break;
+            case 0:  OrderRuleSets(3, 2, 1, 4); break;
+            case 1:  OrderRuleSets(4, 3, 2, 1); break;
+            case 2:  OrderRuleSets(1, 3, 4, 2); break;
+            case 3:  OrderRuleSets(2, 1, 4, 3); break;
+            case 4:  OrderRuleSets(3, 4, 1, 2); break;
+            case 5:  OrderRuleSets(4, 2, 1, 3); break;
+            case 6:  OrderRuleSets(1, 2, 3, 4); break;
+            case 7:  OrderRuleSets(2, 3, 4, 1); break;
+            case 8:  OrderRuleSets(3, 1, 2, 4); break;
+            case 9:  OrderRuleSets(4, 1, 3, 2); break;
+            case 10: OrderRuleSets(1, 4, 3, 2); break;
+            case 11: OrderRuleSets(2, 3, 1, 4); break;
+            case 12: OrderRuleSets(3, 1, 4, 2); break;
+            case 13: OrderRuleSets(4, 1, 2, 3); break;
+            case 14: OrderRuleSets(1, 3, 2, 4); break;
+			case 15: OrderRuleSets(2, 1, 3, 4); break;
         }
 
-        Debug.LogFormat("[Roger #{0}] The number on the first page of the manual is {1}{2}{3}{4}.", moduleId, digits[0], digits[1], digits[2], digits[3]);
-        Debug.LogFormat("[Roger #{0}] The number at the bottom of the module should be {1}{2}{3}{4}.", moduleId, answer[0], answer[1], answer[2], answer[3]);
+        string answerHash = HashingScript.Sha1("Roger " + seed.ToString("0000"));
+        answerHash = Regex.Replace(answerHash, @"[a-f]", "")+"4275";
+        answerHash = answerHash.Substring(0, 4);
+        
+        Debug.LogFormat("[Roger #{0}] The number on the first page of the manual is {1}.", moduleId, seed.ToString("0000"));
+        Debug.LogFormat("[Roger #{0}] The number at the bottom of the module should be {1}.", moduleId, answerHash);
+
+        for (int gor = 0; gor < 4; gor++) {
+            answer.Add("0123456789".IndexOf(answerHash[gor]));
+        }
     }
 
 	// Update is called once per frame
@@ -141,13 +149,13 @@ public class rogerScript : MonoBehaviour {
                 Rules[0].text = "Appendix That";
                 Rules[1].transform.localPosition = new Vector3(-0.1116f, 0.1655386f, 0.0824f);
                 Rules[1].transform.localScale = new Vector3(0.02211364f, 0.0004000004f, 1.1f);
-                Rules[3].text = "The button has 4 attributes: A shape, a\ncolor, a character as it’s label, and\nflickering times.\n\nThe button will flicker WHITE and thus\nthe color of the button will never be\nwhite.\n\nThere are 4 indicator LEDs to indicate\nwhich stage the module is on. The ‘R’\nbutton in the bottom-right can be used\nto reset.\n\nThe module timer will start at 1 and\ngo up once a second and will wrap\nback to 0 after it reaches 59.\n\nHold the query button to reset inputs.\nNote that this does not work when submitting the last input.\n\nWhen submitting in Morse Code, holding over a tick in the\nmodule timer will create a dash. Not holding over a tick in the\ntimer will create a dot.";
+                Rules[3].text = "The button has 4 attributes: A shape, a\ncolor, a character as it’s label, and\nwhen it flickers.\n\nThe button will become brighter when\nit flickers.\n\nThere are 4 indicator LEDs to indicate\nwhich stage the module is on. The ‘R’\nbutton in the bottom-right can be used\nto reset.\n\nThe module timer will start at 0 and\ngo up once a second and will wrap\nback to 0 after it reaches 59.\n\nHold the query button to reset inputs.\nNote that this does not work when submitting the last input.\n\nWhen submitting in Morse Code, holding over a tick in the\nmodule timer will create a dash. Not holding over a tick in the\ntimer will create a dot.";
             } else {
                 if (ruleSets[page - 2] == 1) {
                     Rules[0].text = String.Format("Step {0}: Shape Pressing", page - 1);
                     Rules[1].transform.localPosition = new Vector3(-0.11954f, 0.1655386f, 0.0824f);
                     Rules[1].transform.localScale = new Vector3(0.03439362f, 0.0004000004f, 1.1f);
-                    Rules[3].text = String.Format("If the button has {0}\n\nOtherwise, if the button {1}\n\nOtherwise, press the button when the\nmodule timer is odd and divisible by 3, and\nthe number on the module timer isn't 3\nitself.", good[3], good[4]);
+                    Rules[3].text = String.Format("If the button has {0}\n\nOtherwise, if the button {1}\n\nOtherwise, press the button when the\nmodule timer forms and odd composite\nnumber.", good[3], good[4]);
                 } else if (ruleSets[page - 2] == 2) {
                     manual.GetComponent<MeshRenderer>().material = mats[3];
                     Rules[0].text = String.Format("Step {0}: Character Holding", page - 1);
@@ -163,12 +171,12 @@ public class rogerScript : MonoBehaviour {
                     Rules[0].text = String.Format("Step {0}: Color Tapping", page - 1);
                     Rules[1].transform.localPosition = new Vector3(-0.1195f, 0.1655386f, 0.0824f);
                     Rules[1].transform.localScale = new Vector3(0.03320019f, 0.0004000004f, 1.1f);
-                    Rules[3].text = String.Format("If the button is red, press the button{0}times within 3 seconds.\n\nOtherwise, if the button is {1}, press the\nbutton 7 times within 3 seconds.\n\nOtherwise, press the button twice within\n3 seconds.", good[6], good[0]);
+                    Rules[3].text = String.Format("If the button is red, press the button{0}times within 3 seconds.\n\nOtherwise, if the button is {1}, press\nthe button 7 times within 3 seconds.\n\nOtherwise, press the button twice within\n3 seconds.", good[6], good[0]);
                 } else if (ruleSets[page - 2] == 4) {
                     Rules[0].text = String.Format("Step {0}: Flickering Morse", page - 1);
                     Rules[1].transform.localPosition = new Vector3(-0.12225f, 0.1655386f, 0.0824f);
                     Rules[1].transform.localScale = new Vector3(0.03823728f, 0.0004000004f, 1.1f);
-                    Rules[3].text = String.Format("If the button only flickers when the module\ntimer forms a {0}\nOtherwise, if the button flickers every {1} in Morse Code.\n\nOtherwise, if the delay between flickers\nchanges between {2} in Morse Code.\n\nOtherwise, submit an ‘X’ in Morse Code.", good[2], good[8], good[5]);
+                    Rules[3].text = String.Format("<i>See Appendix That for Morse Code input\nreference.</i>\n\nIf the button only flickers when the\nmodule timer forms a {0}\nOtherwise, if the button flickers every {1} in Morse Code.\n\nOtherwise, if the length of the flicker is\nalways {2} in\nMorse Code.\n\nOtherwise, submit an ‘X’ in Morse Code.", good[2], good[8], good[5]);
                 }
             }
         } else {
@@ -177,16 +185,8 @@ public class rogerScript : MonoBehaviour {
             Rules[1].transform.localPosition = new Vector3(-0.121f, 0.1655386f, 0.0824f);
             Rules[1].transform.localScale = new Vector3(0.0357f, 0.0004000004f, 1.1f);
             Rules[2].text = "You hardly know 'er.";
-            Rules[3].text = "\nThe module is not here, however\nit has been sent to your expert.\nHelp the expert get through the\nmodule so you can get rid of this manual to\nsee the status light. Please tell your\nexpert to input the number below into the\ntop-right display of the module to begin,\nthen follow the steps on the rest of the\npages in the order they are given.";
-            if (seed > 999) {
-                Rules[4].text = String.Format("{0}", seed);
-            } else if (seed > 99) {
-                Rules[4].text = String.Format("0{0}", seed);
-            } else if (seed > 9) {
-                Rules[4].text = String.Format("00{0}", seed);
-            } else {
-                Rules[4].text = String.Format("000{0}", seed);
-            }
+            Rules[3].text = "\nThe module is not here, however\nit has been sent to your expert.\nHelp the expert get through the\nmodule so you can get rid of this manual\nto see the status light. Please tell your\nexpert to input the number below into the\ntop-right display of the module to begin,\nthen follow the steps on the rest of the\npages in the order they are given.";
+            Rules[4].text = seed.ToString("0000");
             Rules[7].text = GetModuleCode();
         }
         if (page == 7) {
@@ -202,13 +202,6 @@ public class rogerScript : MonoBehaviour {
         ruleSets.Add(sec);
         ruleSets.Add(thi);
         ruleSets.Add(fou);
-    }
-
-    void FormCorrectAnswer (int dig1, int add1, int dig2, int add2, int dig3, int add3, int dig4, int add4) {
-        answer.Add((digits[dig1]+add1)%10);
-        answer.Add((digits[dig2]+add2)%10);
-        answer.Add((digits[dig3]+add3)%10);
-        answer.Add((digits[dig4]+add4)%10);
     }
 
     void PressQuery () {
@@ -258,6 +251,7 @@ public class rogerScript : MonoBehaviour {
             StartCoroutine(Grow());
         } else {
             GetComponent<KMBombModule>().HandlePass();
+            moduleSolved = true;
         }
     }
 

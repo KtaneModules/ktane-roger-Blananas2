@@ -155,7 +155,7 @@ public class rogerScript : MonoBehaviour {
                     Rules[0].text = String.Format("Step {0}: Shape Pressing", page - 1);
                     Rules[1].transform.localPosition = new Vector3(-0.11954f, 0.1655386f, 0.0824f);
                     Rules[1].transform.localScale = new Vector3(0.03439362f, 0.0004000004f, 1.1f);
-                    Rules[3].text = String.Format("If the button has {0}\n\nOtherwise, if the button {1}\n\nOtherwise, press the button when the\nmodule timer forms and odd composite\nnumber.", good[3], good[4]);
+                    Rules[3].text = String.Format("If the button has {0}\n\nOtherwise, if the button {1}\n\nOtherwise, press the button when the\nmodule timer forms an odd composite\nnumber.", good[3], good[4]);
                 } else if (ruleSets[page - 2] == 2) {
                     manual.GetComponent<MeshRenderer>().material = mats[3];
                     Rules[0].text = String.Format("Step {0}: Character Holding", page - 1);

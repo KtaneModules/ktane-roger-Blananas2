@@ -92,6 +92,9 @@ public class rogerScript : MonoBehaviour {
 			case 15: OrderRuleSets(2, 1, 3, 4); break;
         }
 
+        string loggingPassword = HashingScript.Sha1("Roger Logging " + seed.ToString("0000"));
+        Debug.LogFormat("[Roger #{0}] To access logging module side, ask your expert to press Tab then input this code: {1}", moduleId, loggingPassword);
+
         string answerHash = HashingScript.Sha1("Roger " + seed.ToString("0000"));
         answerHash = Regex.Replace(answerHash, @"[a-f]", "")+"4275";
         answerHash = answerHash.Substring(0, 4);
@@ -149,7 +152,7 @@ public class rogerScript : MonoBehaviour {
                 Rules[0].text = "Appendix That";
                 Rules[1].transform.localPosition = new Vector3(-0.1116f, 0.1655386f, 0.0824f);
                 Rules[1].transform.localScale = new Vector3(0.02211364f, 0.0004000004f, 1.1f);
-                Rules[3].text = "The button has 4 attributes: A shape, a\ncolor, a character as it’s label, and\nwhen it flickers.\n\nThe button will become brighter when\nit flickers.\n\nThere are 4 indicator LEDs to indicate\nwhich stage the module is on. The ‘R’\nbutton in the bottom-right can be used\nto reset.\n\nThe module timer will start at 0 and\ngo up once a second and will wrap\nback to 0 after it reaches 59.\n\nHold the query button to reset inputs.\nNote that this does not work when submitting the last input.\n\nWhen submitting in Morse Code, holding over a tick in the\nmodule timer will create a dash. Not holding over a tick in the\ntimer will create a dot.";
+                Rules[3].text = "The button has 4 attributes: A shape, a\ncolor, a character as it’s label, and\nwhen it flickers.\n\nThe button will become brighter when\nit flickers.\n\nThere are 4 indicator LEDs to indicate\nwhich stage the module is on. The ‘R’\nbutton in the bottom-right can be used\nto reset.\n\nThe module timer will start at 0 and\ngo up once a second and will wrap\nback to 0 after it reaches 59.\n\nHold the query button to reset inputs.\nNote that this does not work when submitting the last input.\n\nWhen submitting in Morse Code, holding over a tick in the\nmodule timer will create a dash. Not holding over a tick in the\ntimer will create a dot.\n\nWhen holding the button for a number of seconds, the\nsubmitted number of seconds will always be the number of times\nthe module timer changes between the hold and release of the\nbutton.";
             } else {
                 if (ruleSets[page - 2] == 1) {
                     Rules[0].text = String.Format("Step {0}: Shape Pressing", page - 1);

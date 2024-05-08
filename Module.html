@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="js/ktane-utils.js"></script>
+    <script src="js/ffo/fontfaceobserver.js"></script>
     <style>
         body {
             width: 600px;
@@ -17,6 +18,7 @@
         textarea { 
             background-color: #fff; 
             color: #000; 
+            font-family: "Atkinson Hyperlegible";
             font-size: 20px;
             width: 500px; 
             height: 800px;
@@ -86,9 +88,12 @@
             let revealedLog = false;
             
             generateButton();
-            draw();
-            
-            clock = setInterval(tick, 1000);
+            let fontA = new FontFaceObserver('Roboto Mono');
+            let fontB = new FontFaceObserver('Atkinson Hyperlegible');
+            Promise.all([fontA.load(), fontB.load()]).then(() => {
+              draw();
+              clock = setInterval(tick, 1000);
+            })
             
             function generateButton() {
                 const shapes = [
@@ -149,16 +154,16 @@
                             logArray.push("Step " + (s+1) + " - Character Holding:");
                             if (button.char.match(/\d/)) {
                                 solution.push("hold " + (binarySeed[9] == "0" ? button.char : (10 - parseInt(button.char, 10))));
-                                logArray.push("    The number of sides on the button is a number, hold for " + (binarySeed[9] == "0" ? button.char : (10 - parseInt(button.char, 10))) + " seconds.");
+                                logArray.push("    The character on the button is a number, hold for " + (binarySeed[9] == "0" ? button.char : (10 - parseInt(button.char, 10))) + " seconds.");
                             } else if (button.char.match(/[RSTLN]/)) {
                                 solution.push("hold " + ((CHARS.indexOf(button.char)+1) % (binarySeed[1] == "0" ? 8 : 11)));
-                                logArray.push("    The number of sides on the button is not a number, but is one of 'RSTLN', hold for " + (CHARS.indexOf(button.char)+1) % (binarySeed[1] == "0" ? 8 : 11) + " seconds.");
+                                logArray.push("    The character on the button is not a number, but is one of 'RSTLN', hold for " + (CHARS.indexOf(button.char)+1) % (binarySeed[1] == "0" ? 8 : 11) + " seconds.");
                             } else if (button.char.match(/[AEIOU]/)) {
                                 solution.push("hold " + ((vowels.indexOf(button.char)+1) * (binarySeed[7] == "0" ? 1 : 2)));
-                                logArray.push("    The number of sides on the button is not a number, nor is it one of 'RSTLN', but is a vowel, hold for " + ((vowels.indexOf(button.char)+1) * (binarySeed[7] == "0" ? 1 : 2)) + " second(s).");
+                                logArray.push("    The character on the button is not a number, nor is it one of 'RSTLN', but is a vowel, hold for " + ((vowels.indexOf(button.char)+1) * (binarySeed[7] == "0" ? 1 : 2)) + " second(s).");
                             } else {
                                 solution.push("hold 7");
-                                logArray.push("    The number of sides on the button is not a number, is not one of 'RSTLN', nor is it a vowel, hold for 7 seconds.");
+                                logArray.push("    The character on the button is not a number, is not one of 'RSTLN', nor is it a vowel, hold for 7 seconds.");
                             }
                         break;
                         case "color": 
@@ -337,7 +342,7 @@
                     ctx.textAlign = "center";
                     ctx.fillStyle = button.color[getButtonShade()];
                     drawPoly(ctx, button.shape);
-                    ctx.font = "150px Roboto Mono";
+                    ctx.font = "150px Atkinson Hyperlegible";
                     ctx.fillStyle = "#fff";
                     ctx.fillText(button.char, 300, getCharOffset());
                 }
@@ -417,12 +422,9 @@
                         sha1(shaInput).then(hash => {
                             if (logCheck == hash) {
                                 showLogging();
+                                revealedLog = true;
                             }
                         });
-                        revealedLog = true;
-                    } else {
-                        logDiv.innerHTML = "";
-                        showLogging();
                     }
                 }
                 if (seed.length == 4) { return; }
@@ -493,8 +495,8 @@
                     case "squares": return "when the module timer is a square number";
                     case "every other": return (x ? "for a second " : "") + "every other second";
                     case "every three": return (x ? "for a second " : "") + "every 3 seconds";
-                    case "length two": return "for 2 seconds" + (x ? "every 3 seconds" : "");
-                    case "length three": return "for 3 seconds" + (x ? "every 4 seconds" : "");
+                    case "length two": return "for 2 seconds" + (x ? " every 3 seconds" : "");
+                    case "length three": return "for 3 seconds" + (x ? " every 4 seconds" : "");
                 }
             }
             

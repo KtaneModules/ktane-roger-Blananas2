@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using KModkit;
 using System.Text.RegularExpressions;
+using ModifiedMessageCode;
 
 public class rogerScript : MonoBehaviour {
 
@@ -55,6 +56,9 @@ public class rogerScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         seed = UnityEngine.Random.Range(0, 10000);
+
+        var sha1 = new SecureHashAlgorithmOne(new ulong[] { 0x9559b62d, 0x71884793, 0x1bb72471, 0xdeadbeef, 0xf1ea5eed }, new ulong[] { 0x00196883, 0x01200145, 0x009080a2, 0x383f8128 });
+
         PageChange();
         xseed = seed;
         if (xseed > 8191) { good.Add(ones[0]); xseed -= 8192; } else { good.Add(zeros[0]); }
@@ -92,10 +96,10 @@ public class rogerScript : MonoBehaviour {
 			case 15: OrderRuleSets(2, 1, 3, 4); break;
         }
 
-        string loggingPassword = HashingScript.Sha1("Roger Logging " + seed.ToString("0000"));
+        string loggingPassword = sha1.MessageCode("Roger Logging " + seed.ToString("0000"));
         Debug.LogFormat("[Roger #{0}] To access logging module side, ask your expert to press Tab then input this code: {1}", moduleId, loggingPassword);
 
-        string answerHash = HashingScript.Sha1("Roger " + seed.ToString("0000"));
+        string answerHash = sha1.MessageCode("Roger " + seed.ToString("0000"));
         answerHash = Regex.Replace(answerHash, @"[a-f]", "")+"4275";
         answerHash = answerHash.Substring(0, 4);
         
